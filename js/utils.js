@@ -208,31 +208,3 @@ function distance(ax, ay, bx, by) {
 function distanceObj(a, b) {
     return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
 }
-function collisionRect(rect1, rect2) {
-    return (rect1.x < rect2.x + rect2.width &&
-    rect1.x + rect1.width > rect2.x &&
-    rect1.y < rect2.y + rect2.height &&
-    rect1.height + rect1.y > rect2.y)
-}
-
-function RectsColliding(r1, r2) {
-    return !(r1.x > r2.x + r2.w || r1.x + r1.w < r2.x || r1.y > r2.y + r2.h || r1.y + r1.h < r2.y);
-}
-
-function ccColliding(c1, c2) {
-    return distanceObj(c1, c2) <= c1.r + c2.r;
-}
-function RectCircleColliding(rect,circle){
-    var dx=Math.abs(circle.x-(rect.x+rect.w/2));
-    var dy=Math.abs(circle.y-(rect.y+rect.y/2));
-
-    if( dx > circle.r+rect.w2 ){ return(false); }
-    if( dy > circle.r+rect.h2 ){ return(false); }
-
-    if( dx <= rect.w ){ return(true); }
-    if( dy <= rect.h ){ return(true); }
-
-    var dx=dx-rect.w;
-    var dy=dy-rect.h
-    return(dx*dx+dy*dy<=circle.r*circle.r);
-}
