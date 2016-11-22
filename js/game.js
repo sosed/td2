@@ -1,7 +1,5 @@
 Game.init = function() {
 
-    Game.currentWave = 0;
-
     Game.currentState = 'play';
 
     Game.ui = new UI();
@@ -118,7 +116,6 @@ Game.loop = function(timestamp) {
 
     Game.state[Game.currentState].draw();
 
-    //Game.delta = timestamp - Game.last;
     Game.state[Game.currentState].update();
 
     var now = Date.now();

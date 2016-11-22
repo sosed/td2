@@ -14,7 +14,6 @@ var Game = (function() {
         bullets: [],
         bombs: [],
         explosions: [],
-        currentWave: 0,
         ctx: ctx
     }
 
