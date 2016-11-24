@@ -15,7 +15,7 @@ Game.mouse = {
 Game.canvas.addEventListener('mousedown', function(e) {
 
     Game.mouse.isStart = true;
-    Game.mouse.clicked = !Game.mouse.down;
+    Game.mouse.clicked = true;
     Game.mouse.down = true;
 });
 
@@ -53,8 +53,8 @@ Game.canvas.addEventListener('mousemove',function(e) //Событие навед
     Game.mouse.x = e.clientX - rect.left;
     Game.mouse.y = e.clientY - rect.top;
 
-    Game.mouse.clicked = (e.which == 1 && Game.mouse.down);
-    Game.mouse.down = (e.which == 1);
+   // Game.mouse.clicked = (e.which == 1 && Game.mouse.down);
+    //Game.mouse.down = (e.which == 1);
     if(Game.mouse.drag.active) {
         var cell = getCellCoord(Game.mouse.x, Game.mouse.y);
         Game.mouse.drag.tower.gx = cell.gx;
