@@ -30,7 +30,6 @@ var UIButton = function (sprite, x, y, width, height) {
             this.hovered = true;
             if (Game.mouse.clicked) {
                 this.clicked = true;
-                console.log('ckick btn');
             }
         } else {
             this.hovered = false;

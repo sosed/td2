@@ -119,12 +119,12 @@ var Bomb = function(tower, creep) {
         x: creep.x,
         y: creep.y
     }
+
     bomb.r = tower.bullet.r;
     bomb.activated = true;
     bomb.rangeExpl = 0.8 * Game.cell.width;
     bomb.path = getCurvePath(bomb, {x:creep.center.x,y:creep.center.y});
     bomb._index = 0;
-
     bomb.update = function() {
 
         bomb._index += tower.bullet.speed*Game.delta * 30;
