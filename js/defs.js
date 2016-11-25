@@ -186,11 +186,18 @@ Game.defs.towers.gun = {
         speed: 6
     },
     levels: [
-        {cost:100, damage:30, range: 2.1, rate:30},
-        {cost:101, damage:350, range: 2.3, rate:28},
-        {cost:102, damage:400, range: 2.5, rate:22},
-        {cost:103, damage:460, range: 2.9, rate:22},
-        {cost:104, damage:550, range: 2.9, rate:20},
+        {cost:100, damage:135, range: 2.1, rate:30},
+        {cost:155, damage:379, range: 2.1, rate:30},
+        {cost:240, damage:809, range: 2.3, rate:28},
+        {cost:370, damage:1159, range: 2.5, rate:22},
+        {cost:570, damage:2856, range: 2.9, rate:22},
+        {cost:900, damage:5090, range: 2.9, rate:20},
+        {cost:1390, damage:8912, range: 2.9, rate:20},
+        {cost:2150, damage:15450, range: 2.9, rate:20},
+        {cost:3340, damage:26650, range: 2.9, rate:20},
+        {cost:5170, damage:45750, range: 2.9, rate:20},
+        {cost:8000, damage:78350, range: 2.9, rate:20},
+        {cost:12406, damage:133970, range: 2.9, rate:20},
     ],
     atack: function(tower, creep) {
         Game.bullets.push(new Bullet(tower, creep));
@@ -211,11 +218,13 @@ Game.defs.towers.mortal = {
         speed: 4
     },
     levels: [
-        {cost:100, damage:337, range: 3.5, rate:80},
-        {cost:101, damage:350, range: 3.7, rate:70},
-        {cost:102, damage:400, range: 4, rate:70},
-        {cost:103, damage:460, range: 4.2, rate:80},
-        {cost:104, damage:550, range: 4.2, rate:60},
+        {cost:600, damage:1134, range: 3.5, rate:80},
+        {cost:1440, damage:3181, range: 3.7, rate:70},
+        {cost:2240, damage:6790, range: 4, rate:70},
+        {cost:3460, damage:13090, range: 4.2, rate:80},
+        {cost:5367, damage:23988, range: 4.2, rate:60},
+        {cost:8320, damage:42727, range: 4.2, rate:60},
+        {cost:12890, damage:74858, range: 4.1, rate:60},
     ],
     atack: function(tower, creep) {
         Game.bombs.push(new Bomb(tower, creep));
@@ -231,11 +240,16 @@ Game.defs.towers.laser = {
         pos: [0, 192]
     },
     levels: [
-        {cost:300,damage:1,range: 2.2, rate:1},
-        {cost:100,damage:2,range: 2.45, rate:1},
-        {cost:101,damage:3,range: 2.6, rate:1},
-        {cost:102,damage:4,range: 2.6, rate:1},
-        {cost:103,damage:5,range: 2.6, rate:1},
+        {cost:220,damage:6,range: 2.2, rate:1},
+        {cost:340,damage:17,range: 2.45, rate:1},
+        {cost:530,damage:36,range: 2.6, rate:1},
+        {cost:820,damage:69,range: 2.6, rate:1},
+        {cost:1270,damage:127,range: 2.6, rate:1},
+        {cost:1970,damage:226,range: 2.6, rate:1},
+        {cost:3050,damage:396,range: 2.6, rate:1},
+        {cost:4730,damage:687,range: 2.6, rate:1},
+        {cost:7330,damage:1184,range: 2.6, rate:1},
+        {cost:11360,damage:2033,range: 2.6, rate:1},
     ],
     atack: function(tower, creep) {
         Game.ctx.beginPath();
