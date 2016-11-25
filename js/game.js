@@ -32,6 +32,9 @@ Game.nextWave = function () {
         Game.creeps.push(new Creep(Game.monsters.creep));
     }
 }
+Game.end = function() {
+
+};
 
 Game.state = [];
 
@@ -69,6 +72,7 @@ Game.state['play'] = {
         this.drawActor(Game.creeps);
         Game.world.drawTMP();
         Game.ui.draw();
+
     },
 
     updateActor: function(actor) {
@@ -124,6 +128,9 @@ Game.loop = function(timestamp) {
     Game.last = now;
 
     requestAnimationFrame(Game.loop);
+
+};
+Game.state['end'] = function() {
 
 };
 

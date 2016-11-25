@@ -43,14 +43,16 @@ var UIButton = function (sprite, x, y, width, height) {
     };
 }
 
-var UIText = function (text, x, y, size) {
+var UIText = function (text, x, y, size, color) {
     this.text = text;
     this.x = x;
     this.y = y;
     this.size = size;
-    this.color = "#000";
+    this.color = color || "#000";
     this.activated = true;
     this.update = function() {
+        if(color)
+            return;
         if(Game.cash - parseInt(this.text) >= 0 ) {
             this.color = "#ffe500";
         } else {
@@ -61,6 +63,10 @@ var UIText = function (text, x, y, size) {
         Game.ctx.beginPath();
         Game.ctx.font = this.size + "px Verdana";
         Game.ctx.fillStyle = this.color;
+        if(color) {
+            Game.ctx.strokeStyle = '#000';
+            Game.ctx.strokeText(this.text, this.x, this.y);
+        }
         Game.ctx.fillText(this.text, this.x, this.y);
         Game.ctx.closePath();
     };
@@ -88,7 +94,6 @@ var UITextAlert = function (text) {
         } else {
             Game.ctx.fillStyle = "rgba(255, 0, 0, 1)";
         }
-
         Game.ctx.fillText(this.text, Game.width / 2 - this.text.length * 6, Game.height / 2);
         Game.ctx.closePath();
     }
@@ -194,6 +199,7 @@ var UI = function() {
     ui.actor = [];
 
     ui.towerInfo;
+    ui.fps = new UIText('FPS: ', 10, 30, 12, '#fff');
 
     ui.init = function () {
         initTower();
@@ -247,6 +253,7 @@ var UI = function() {
         ui.actor.push(new UIText(Game.defs.towers.gun.levels[0].cost, towerArch.x + 18, towerArch.y + towerArch.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.towers.mortal.levels[0].cost, towerMortal.x + 18, towerMortal.y + towerMortal.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.towers.laser.levels[0].cost, towerLaser.x + 18, towerLaser.y + towerLaser.height - 8, 14));
+        ui.actor.push(new UIText('Version: ' + Game.version, 10, 10, 12, '#fff'));
         ui.actor.push(ui.towerInfo);
 
     };
@@ -268,7 +275,12 @@ var UI = function() {
         ui.actor.push(new UITextAlert(text));
     };
 
+    var ind = 0;
     ui.update = function() {
+        if(++ind % 30 == 0) {
+            ui.fps.text = ~~(1/Game.delta) + 'FPS';
+
+        }
 
         ui.actor.forEach(function(act, i, a) {
             if(!act.activated) {
@@ -296,7 +308,7 @@ var UI = function() {
         ui.actor.forEach(function(act, i, a) {
             act.draw();
         });
-
+        ui.fps.draw();
     };
 
     return ui;

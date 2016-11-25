@@ -14,6 +14,8 @@ var Game = (function() {
         bullets: [],
         bombs: [],
         explosions: [],
+        version: '0.1.002',
+        fps: null,
         ctx: ctx
     }
 
