@@ -8,14 +8,11 @@ var UIButton = function (sprite, x, y, width, height) {
     this.clicked = false;
     this.hovered = false;
     this.sprite = sprite;
-    this.scale = [1,1];
     this.activated = true;
     this.update = function() {
         var wasNotClicked = !this.clicked;
         this.updateStats();
         if (this.clicked && wasNotClicked) {
-            this.scale = [0.9, 0.9];
-            this.x = this.defX + 1;
             this.y = this.defY + 1;
             if (this.handler !== undefined) {
                 this.handler();
@@ -23,7 +20,7 @@ var UIButton = function (sprite, x, y, width, height) {
         }
     };
     this.draw = function() {
-        Game.renderEntity(this, null, this.scale);
+        Game.renderEntity(this, null);
     }
     this.updateStats = function(){
         if (intersects(this, Game.mouse)) {
@@ -33,15 +30,11 @@ var UIButton = function (sprite, x, y, width, height) {
             }
         } else {
             this.hovered = false;
-            this.scale = [1,1];
-            this.x = this.defX;
             this.y = this.defY;
         }
 
         if(this.hovered) {
-            this.scale = [1.02, 1.02];
-            this.x = this.defX - 1;
-            this.y = this.defY - 1;
+            this.y = this.defY - 2;
         }
 
         if (!Game.mouse.down) {
@@ -58,10 +51,10 @@ var UIText = function (text, x, y, size) {
     this.color = "#000";
     this.activated = true;
     this.update = function() {
-        if(Game.cash < parseInt(this.text)) {
-            this.color = "#f00";
-        } else {
+        if(Game.cash - parseInt(this.text) >= 0 ) {
             this.color = "#ffe500";
+        } else {
+            this.color = "#f00";
         }
     };
     this.draw = function() {
@@ -163,12 +156,19 @@ var UITowerInfo = function(sprite, x, y) {
         }
     };
     this.drawBtn = function() {
-        Game.ctx.beginPath();
         var t = Game.mouse.selection.tower;
-        if(t.cost > Game.cash) {
-            Game.ctx.fillStyle = "#F00";
-        } else {
+        Game.renderEntity(this.btnSell);
+        Game.ctx.beginPath();
+        Game.ctx.fillStyle = "#fff";
+        Game.ctx.fillText(t.price, this.btnSell.x + this.btnSell.width / 2 - 10, this.btnSell.y + 30);
+        Game.ctx.closePath();
+
+        Game.ctx.beginPath();
+
+        if(Game.cash - t.levels[t.level + 1].cost >= 0) {
             Game.ctx.fillStyle = "#fff";
+        } else {
+            Game.ctx.fillStyle = "#F00";
         }
 
         Game.ctx.font="14px Verdana";
@@ -180,12 +180,9 @@ var UITowerInfo = function(sprite, x, y) {
             Game.ctx.fillStyle = "#fff";
             Game.ctx.fillText("Макс. ур", this.btnUpgrate.x + this.btnUpgrate.width / 2 - 30, this.btnUpgrate.y + 20);
         }
-        Game.renderEntity(this.btnSell);
+
         Game.ctx.closePath();
-        Game.ctx.beginPath();
-        Game.ctx.fillStyle = "#fff";
-        Game.ctx.fillText(t.price, this.btnSell.x + this.btnSell.width / 2 - 10, this.btnSell.y + 30);
-        Game.ctx.closePath();
+
     };
 }
 
@@ -202,8 +199,8 @@ var UI = function() {
         initTower();
 
         ui.btnNextWave = new UIButton(
-            new Sprite("img/sprite64.png", [0, 558], [36, 36]),
-            Game.cell.width/2, Game.height - 58, 36, 36
+            new Sprite("img/sprite64.png", [0, 558], [90, 36]),
+            Game.cell.width/2, Game.height - 58, 90, 36
         );
         ui.btnNextWave.handler = function() {
             Game.nextWave();
@@ -255,7 +252,7 @@ var UI = function() {
     };
 
     function addTower(tower) {
-        if(tower.levels[0].cost < Game.cash) {
+        if(Game.cash - tower.levels[0].cost >= 0 ) {
             Game.mouse.drag = {
                 active: true,
                 tower: tower

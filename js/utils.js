@@ -26,17 +26,20 @@ function generateLelev(wave) {
     level[6] = [2, amound / 10,hp * 10];
     level[7] = [2, 3,          hp * 10];
     level[8] = [8, amound * 3, hp / 2];
-    level[9] = [2, amound,     hp];
-    level[10] = [2, 1,          hp * 20];
-    level[11] = [12, amound * 3, hp / 3];
-    level[12] = [1, amound,    hp * 2];
+    level[9] = [2, 1,          hp * 20]; // BOSS
+    level[10] = [2, amound,     hp];
+
+    level[11] = [10, amound * 3, hp / 3];
+    level[12] = [1.5, amound,    hp * 5];
 
 
-    var reward = 700 + 100 * (wave - 3);
-    var levelId = (wave - 4) % 10;
-    if(wave < 4) {
+    var reward, levelId;
+    if(wave < 3) {
         levelId = wave - 1;
         reward = 500 + 100 * wave - 1;
+    } else {
+        reward = 700 + 100 * (wave - 3);
+        levelId = (wave - 4) % 10 + 3;
     }
     reward /= 5;
     return {
