@@ -55,7 +55,7 @@ var UIText = function (text, x, y, size) {
     this.x = x;
     this.y = y;
     this.size = size;
-    this.color = "#ffe500";
+    this.color = "#000";
     this.activated = true;
     this.update = function() {
         if(Game.cash < parseInt(this.text)) {
@@ -164,16 +164,17 @@ var UITowerInfo = function(sprite, x, y) {
     };
     this.drawBtn = function() {
         Game.ctx.beginPath();
-        if(Game.mouse.selection.tower.cost > Game.cash) {
+        var t = Game.mouse.selection.tower;
+        if(t.cost > Game.cash) {
             Game.ctx.fillStyle = "#F00";
         } else {
             Game.ctx.fillStyle = "#fff";
         }
 
         Game.ctx.font="14px Verdana";
-        if(Game.mouse.selection.tower.level < Game.mouse.selection.tower.levels.length - 1) {
+        if(t.level < t.levels.length - 1) {
             Game.renderEntity(this.btnUpgrate);
-            Game.ctx.fillText(Game.mouse.selection.tower.cost, this.btnUpgrate.x + this.btnUpgrate.width / 2 - 10, this.btnUpgrate.y + 30);
+            Game.ctx.fillText(t.levels[t.level + 1].cost, this.btnUpgrate.x + this.btnUpgrate.width / 2 - 10, this.btnUpgrate.y + 30);
 
         } else {
             Game.ctx.fillStyle = "#fff";
@@ -183,7 +184,7 @@ var UITowerInfo = function(sprite, x, y) {
         Game.ctx.closePath();
         Game.ctx.beginPath();
         Game.ctx.fillStyle = "#fff";
-        Game.ctx.fillText(Game.mouse.selection.tower.price, this.btnSell.x + this.btnSell.width / 2 - 10, this.btnSell.y + 30);
+        Game.ctx.fillText(t.price, this.btnSell.x + this.btnSell.width / 2 - 10, this.btnSell.y + 30);
         Game.ctx.closePath();
     };
 }

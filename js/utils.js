@@ -38,7 +38,7 @@ function generateLelev(wave) {
         levelId = wave - 1;
         reward = 500 + 100 * wave - 1;
     }
-
+    reward /= 5;
     return {
         speed: level[levelId][0],
         amound: level[levelId][1],
@@ -61,11 +61,13 @@ function drawCircle(x, y, r, color) {
 }
 
 function drawRect(x, y, w, color) {
+    Game.ctx.beginPath();
     Game.ctx.fillStyle = color;
     Game.ctx.strokeStyle = "#ccc";
     Game.ctx.fillRect(x * w, y * w, w, w);
     Game.ctx.strokeRect(x * w, y * w, w, w);
-
+    Game.ctx.fill();
+    Game.ctx.closePath();
 }
 
 function getAngle(pos1, pos2) {

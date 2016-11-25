@@ -13,7 +13,7 @@ Game.init = function() {
 
 Game.default = function() {
     Game.wave = 0;
-    Game.cash = 1000;
+    Game.cash = 200;
     Game.live = 100;
 }
 

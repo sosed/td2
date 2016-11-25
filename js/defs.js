@@ -25,6 +25,7 @@ var Tower = function(options) {
     tower.level = 0;
     tower.price = 0;
     tower.sprite = new Sprite(tower.source.url, new Pos(tower.source.pos), [Game.cell.width, Game.cell.width]);
+    tower.levelText = new UIText(tower.level + 1, tower.x + Game.cell.width - 12, tower.y + 12, 12);
 
     function setParameters() {
         tower.damage = tower.levels[tower.level].damage;
@@ -55,16 +56,24 @@ var Tower = function(options) {
         }
         //drawCircle(tower.x, tower.y, 10, tower.color);
         Game.renderEntity(tower);
+        tower.levelText.draw();
     }
     tower.upgrate = function() {
         if(tower.level - 1 < tower.levels.length) {
-            if(tower.cost < Game.cash) {
+            if(Game.cash - tower.levels[tower.level + 1].cost >= 0) {
                 tower.level ++;
                 setParameters();
                 Game.cash -= tower.cost;
+                tower.levelText.text = tower.level + 1;
             } else {
                 Game.ui.alert("Не хватает золота");
             }
+            if(tower.level >= tower.levels.length - 1) {
+                tower.levelText.color = '#f3da03';
+                tower.levelText.size += 2;
+            }
+        } else {
+
         }
     }
     tower.sell = function() {
