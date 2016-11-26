@@ -13,14 +13,39 @@ Game.mouse = {
 };
 
 Game.canvas.addEventListener('mousedown', function(e) {
-
-    Game.mouse.isStart = true;
-    Game.mouse.clicked = true;
-    Game.mouse.down = true;
+    handleDown(e);
 });
 
 Game.canvas.addEventListener('mouseup',function(e)
 {
+    handleUp(e);
+});
+
+Game.canvas.addEventListener('mousemove',function(e) //Событие наведения мыши на canvas
+{
+    handleMove(e);
+});
+
+Game.canvas.addEventListener("touchstart", function (e) {
+    handleUp(e);
+}, false);
+
+Game.canvas.addEventListener('touchend', function(e) {
+    handleDown(e);
+});
+
+Game.canvas.addEventListener('touchmove',function(e)
+{
+    handleMove(e.touches[0]);
+});
+
+function handleDown(e) {
+    Game.mouse.isStart = true;
+    Game.mouse.clicked = true;
+    Game.mouse.down = true;
+}
+
+function handleUp(e) {
     Game.mouse.down = false;
     Game.mouse.clicked = false;
     var cell = getCellCoord(Game.mouse.x, Game.mouse.y);
@@ -44,23 +69,21 @@ Game.canvas.addEventListener('mouseup',function(e)
             Game.mouse.drag.active = false;
         }
     }
+}
 
-});
-
-Game.canvas.addEventListener('mousemove',function(e) //Событие наведения мыши на canvas
-{
+function handleMove(e) {
     var rect = Game.canvas.getBoundingClientRect();
     Game.mouse.x = e.clientX - rect.left;
     Game.mouse.y = e.clientY - rect.top;
 
-   // Game.mouse.clicked = (e.which == 1 && Game.mouse.down);
+    // Game.mouse.clicked = (e.which == 1 && Game.mouse.down);
     //Game.mouse.down = (e.which == 1);
     if(Game.mouse.drag.active) {
         var cell = getCellCoord(Game.mouse.x, Game.mouse.y);
         Game.mouse.drag.tower.gx = cell.gx;
         Game.mouse.drag.tower.gy = cell.gy;
     }
-});
+}
 
 
 function removeFocus() {
