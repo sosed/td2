@@ -85,7 +85,21 @@ function getPositionNumberFromArray(m, n) {
             }
     return -1;
 }
-
+/*
+ * Выстраивания маршрута (Поиск пути).
+ * Описание алгоритма: 2 - Начала маршрута, 3 - конец маршрута, 1 - путь.
+ * В point добавляется координата начала маршрута. В массиве от этой координаты должен быть путь в одну сторону.
+ * Алгоритм проходит прямо по массиву пока не встретит препятствие, заносит эту координату в point, двигается по
+ * аналогии с алгоритмом правой руки, но никогда не пойдёт в обратном направлении. Т.е. алгоритм не расчитан на то,
+ * чтобы выходить из тупика (Может зациклиться). Последним элементом массива point - конец маршута.
+ * Использование: Алгорим позволяет передвигать объект из точки в точку с помощью функции move, которая находится в этом
+ * файле.
+ *
+ * @param {array[number, number]} map - двумерный масив
+ * @param {number} begin - начало маршрута
+ * @param {number} end - конец маршрута
+ * @return {array} point - точки поворотов
+ */
 function getRoute(map, begin, end) {
     var dx = [1, 0, -1, 0],
         dy = [0, 1, 0, -1],
@@ -128,10 +142,23 @@ function getMousePos(canvas, evt) {
     };
 }
 
+/*
+ * Перевод из координат сетки в пиксели
+ *
+ * @param {number} n - номер ячейки
+ * @return {number}
+ */
 function gridToPixel(n) {
     return n*Game.cell.width;
 }
 
+/*
+ * Возращает координату ячейки
+ *
+ * @param {number} x - координата по x
+ * @param {number} y - координата по y
+ * @return {object}
+ */
 function getCellCoord(x, y) {
     return {
         gx: ~~( x / (Game.cell.width)),
@@ -139,6 +166,15 @@ function getCellCoord(x, y) {
     }
 }
 
+/*
+ * Движения объекта из одной точки в другую в 2D пространстве.
+ * Функция принимает указатель на объект, тем самым меняя его координаты.
+ *
+ * @param {x,y} begin - координаты оъекта
+ * @param {x,y} end - цель оъекта
+ * @param {number} speed - скорость движения
+ * @return {bool} достиг ли объект цели
+ */
 function move(begin, end, speed) {
     var distx = end.x - begin.x;
     var disty = end.y - begin.y;
@@ -150,6 +186,15 @@ function move(begin, end, speed) {
     return (distx < 0 ? -distx : distx) + (disty < 0 ? -disty : disty) < Game.cell.width / randomInt(1,3);
 };
 
+/*
+ * Движения объекта из одной точки в другую в 2D пространстве.
+ * Функция возращает вектор направления для объекта
+ *
+ * @param {x,y} begin - координаты оъекта
+ * @param {x,y} end - цель оъекта
+ * @param {number} speed - скорость движения
+ * @return {x, y} скорость по x и по y
+ */
 function moveTo(begin, end, speed) {
     var distx = end.x - begin.x;
     var disty = end.y - begin.y;
@@ -158,6 +203,13 @@ function moveTo(begin, end, speed) {
     return {x: speed * Math.cos(angle), y: speed * Math.sin(angle)}
 }
 
+/*
+ * Находится ли точка в прямоугольнике?
+ *
+ * @param {rect} obj - объект
+ * @param {x,y} mouse - координаты мыши
+ * @return {bool} да, нет
+ */
 function intersects(obj, mouse) {
     var t = 1; //tolerance
 
@@ -166,6 +218,13 @@ function intersects(obj, mouse) {
     return  xIntersect && yIntersect;
 };
 
+/*
+ * Имитация выстрела мортиры методом кривых безье
+ *
+ * @param {x,y} begin - координаты оъекта
+ * @param {x,y} end - цель оъекта
+ * @return {array} одномерный массив точек маршрута
+ */
 function getCurvePath(begin, end) {
     var xd = 0,
         xy = -200;

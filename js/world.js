@@ -98,6 +98,10 @@ var World = function() {
         Game.renderEntity(world.terrain.bg);
     };
 
+    /*
+     * Перенос башни. Отрисовка. Проверка на возможность поставки башни.
+     * Сомнительная функция. Надо будет её переделать.
+     */
     world.drawTMP = function() {
         if(Game.mouse.drag.active) {
             var t = Game.mouse.drag.tower;

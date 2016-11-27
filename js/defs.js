@@ -179,9 +179,9 @@ var Bomb = function(tower, creep) {
     return bomb;
 }
 
-Game.defs.towers =  {};
+Game.defs =  {};
 
-Game.defs.towers.gun = {
+Game.defs.gun = {
     gx: 50, gy: 0,
     color: "#005CFF",
     name: 'Башня',
@@ -213,7 +213,7 @@ Game.defs.towers.gun = {
     }
 };
 
-Game.defs.towers.mortal = {
+Game.defs.mortal = {
     gx: 50, gy: 0,
     color: "#005CFF",
     name: 'Мортира',
@@ -240,7 +240,7 @@ Game.defs.towers.mortal = {
     }
 };
 
-Game.defs.towers.laser = {
+Game.defs.laser = {
     gx: 50, gy: 0,
     color: "rgb(255, 252, 0, .2)",
     name: 'Лазер',
