@@ -16,6 +16,22 @@ Game.default = function() {
     Game.cash = 200;
     Game.live = 100;
 }
+/*
+ * Общий интерфейс для всех объектов
+ *
+ * @param {x, y, activated, update, draw,} actor - Сам объект
+ * @param {enum} type - тип оъекта {1-towers, 2 -creeps, 3-ui}
+ */
+Game.actors = function (actor, type) {
+    this.type = type || null;
+    this.actor = actor;
+    this.update = function() {
+        this.actor.update();
+    };
+    this.draw = function() {
+        this.actor.draw();
+    };
+};
 
 Game.nextWave = function () {
     Game.wave ++;
@@ -33,7 +49,7 @@ Game.nextWave = function () {
     }
 }
 Game.end = function() {
-
+    Game.currentState = 'end';
 };
 
 Game.state = [];
@@ -93,6 +109,16 @@ Game.state['play'] = {
 
 };
 
+Game.state['end'] = {
+    update: function () {
+
+    },
+
+    draw: function() {
+
+    }
+};
+
 Game.renderEntity = function (entity, angle, scale) {
     Game.ctx.save();
     Game.ctx.translate(entity.x, entity.y);
@@ -130,14 +156,11 @@ Game.loop = function(timestamp) {
     requestAnimationFrame(Game.loop);
 
 };
-Game.state['end'] = function() {
 
-};
 
 window.addEventListener('load', function() {
 
     resources.load([
-        'img/sprite40.png',
         'img/sprite64.png',
         'img/bg.png',
     ]);
