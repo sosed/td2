@@ -16,6 +16,7 @@ var Creep = function(options) {
 
     creep.dirVer = 1; //direction vertical
     creep.dirHor = 1; //direction horizontal
+    creep.width = creep.sprite.size[0];
 
     creep.center = {
         x: 0, y: 0
@@ -70,14 +71,14 @@ var Creep = function(options) {
     };
 
     creep.drawHp = function(){
-        var tmp_live = 2 * creep.r * creep.hp / creep.maxHp;
+        var tmp_live = creep.width * creep.hp / creep.maxHp;
         if(tmp_live < 0)
             return;
         Game.ctx.fillStyle = "#f00";
         Game.ctx.strokeStyle = "#000";
 
 
-        Game.ctx.strokeRect(creep.x, creep.y + creep.r, creep.sprite.size[0], 3);
+        Game.ctx.strokeRect(creep.x, creep.y + creep.r, creep.width, 3);
         Game.ctx.fillRect(creep.x, creep.y + creep.r, tmp_live, 3);
     };
 
