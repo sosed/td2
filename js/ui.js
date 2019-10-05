@@ -21,7 +21,7 @@ var UIButton = function (sprite, x, y, width, height) {
     };
     this.draw = function() {
         Game.renderEntity(this, null);
-    }
+    };
     this.updateStats = function(){
         if (intersects(this, Game.mouse)) {
             this.hovered = true;
@@ -170,14 +170,15 @@ var UITowerInfo = function(sprite, x, y) {
 
         Game.ctx.beginPath();
 
-        if(Game.cash - t.levels[t.level + 1].cost >= 0) {
-            Game.ctx.fillStyle = "#fff";
-        } else {
-            Game.ctx.fillStyle = "#F00";
-        }
+
 
         Game.ctx.font="14px Verdana";
         if(t.level < t.levels.length - 1) {
+            if(Game.cash - t.levels[t.level + 1].cost >= 0) {
+                Game.ctx.fillStyle = "#fff";
+            } else {
+                Game.ctx.fillStyle = "#F00";
+            }
             Game.renderEntity(this.btnUpgrate);
             Game.ctx.fillText(t.levels[t.level + 1].cost, this.btnUpgrate.x + this.btnUpgrate.width / 2 - 10, this.btnUpgrate.y + 30);
 
@@ -189,7 +190,7 @@ var UITowerInfo = function(sprite, x, y) {
         Game.ctx.closePath();
 
     };
-}
+};
 
 var UI = function() {
     var ui = {};
@@ -212,7 +213,7 @@ var UI = function() {
             Game.nextWave();
         };
         ui.actor.push(ui.btnNextWave);
-    }
+    };
 
     function initTower() {
         var marginLeft = 15,
@@ -263,7 +264,7 @@ var UI = function() {
             Game.mouse.drag = {
                 active: true,
                 tower: tower
-            }
+            };
             return true;
         }
 

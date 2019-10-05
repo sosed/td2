@@ -5,7 +5,9 @@
 var Creep = function(options) {
     var creep = {};
     for (var key in options) {
-        creep[key] = options[key];
+        if (options.hasOwnProperty(key)) {
+            creep[key] = options[key];
+        }
     }
 
     creep.maxHp = creep.hp;
@@ -44,7 +46,8 @@ var Creep = function(options) {
             creep.activated = false;
             Game.cash += creep.cost;
         }
-    }
+    };
+
     creep.draw = function() {
         if(!creep.activated)
             return;
@@ -64,7 +67,8 @@ var Creep = function(options) {
         }
 
 
-    }
+    };
+
     creep.drawHp = function(){
         var tmp_live = 2 * creep.r * creep.hp / creep.maxHp;
         if(tmp_live < 0)
@@ -75,9 +79,10 @@ var Creep = function(options) {
 
         Game.ctx.strokeRect(creep.x, creep.y + creep.r, creep.sprite.size[0], 3);
         Game.ctx.fillRect(creep.x, creep.y + creep.r, tmp_live, 3);
-    }
+    };
+
     return creep;
-}
+};
 
 Game.monsters = {};
 
@@ -86,7 +91,7 @@ Game.monsters.creep = {
     source: {
         url: 'img/sprite64.png',
         pos: [0, 64],
-        size: [32, 64],
+        size: [32, 64]
     },
     numPoint: 0,
     r: 10,

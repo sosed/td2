@@ -108,7 +108,7 @@ var World = function() {
             var cell = getCellCoord(Game.mouse.x, Game.mouse.y);
             if(t.gx < Game.world.map.length && t.gy < Game.world.map[0].length)
             {
-                if(Game.world.map[t.gx][t.gy] == Game.world.terrain.common) {
+                if(Game.world.map[t.gx][t.gy] === Game.world.terrain.common) {
                     drawCircleGrid(cell.gx, cell.gy, color.selected, t.levels[0].range *  Game.cell.width);
                 } else {
                     drawCircleGrid(cell.gx, cell.gy, color.red, t.levels[0].range *  Game.cell.width);

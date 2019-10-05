@@ -1,4 +1,4 @@
-function generateLelev(wave) {
+function generateLevel(wave) {
     var amound = 40;
 
     var hp = ~~(30 + (wave - 1) * (20 * Math.pow(1.06, wave - 4)));
@@ -17,6 +17,10 @@ function generateLelev(wave) {
     }
 
     var level = [];
+
+    // 0 - скорость
+    // 1 - кол-во монстров
+    // 2 - кровинок
     level[0] = [2, amound/8, 30];
     level[1] = [2, 10, 45];
     level[2] = [2, 40 / 2, 56];
@@ -80,7 +84,7 @@ function getAngle(pos1, pos2) {
 function getPositionNumberFromArray(m, n) {
     for(var i = 0; i < m.length; i++)
         for(var k = 0; k < m[0].length; k++)
-            if(m[i][k] == n) {
+            if(m[i][k] === n) {
                 return {x: i, y: k};
             }
     return -1;
@@ -112,18 +116,18 @@ function getRoute(map, begin, end) {
         for(var i = 0; i < dx.length; i ++) {
             if(cx + dx[i] < 0 || cx + dx[i] > map.length || cy + dy[i] < 0 || cy + dy[i] > map[0].length)
                 continue;
-            if(map[cx + dx[i]][cy + dy[i]] == 3) {
+            if(map[cx + dx[i]][cy + dy[i]] === 3) {
                 b = false;
                 point.push({x: gridToPixel(end.x + 2), y: gridToPixel(end.y)});
                 return point;
             }
-            if(map[cx + dx[i]][cy + dy[i]] == 1) {
+            if(map[cx + dx[i]][cy + dy[i]] === 1) {
                 cx += dx[i];
                 cy += dy[i];
                 map[cx][cy] = -1;
                 point.push({
                     x: gridToPixel(cx),
-                    y: gridToPixel(cy),
+                    y: gridToPixel(cy)
                 });
                 i--;
             }
@@ -132,7 +136,7 @@ function getRoute(map, begin, end) {
     }
 
     return point;
-};
+}
 
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
@@ -216,7 +220,7 @@ function intersects(obj, mouse) {
     var xIntersect = (mouse.x + t) > obj.x && (mouse.x - t) < obj.x + obj.width,
         yIntersect = (mouse.y + t) > obj.y && (mouse.y - t) < obj.y + obj.height;
     return  xIntersect && yIntersect;
-};
+}
 
 /*
  * Имитация выстрела мортиры методом кривых безье
@@ -247,12 +251,12 @@ function getCurvePath(begin, end) {
 
 function angleCalc(sx, sy, tx, ty) {
     return Math.atan2(ty - sy, tx - sx);
-};
+}
 
 var Pos = function(p) {
-    var pos = [p[0], p[1]];
-    return pos;
-}
+    return [p[0], p[1]];
+};
+
 function randomInt( min, max ) {
     return Math.round(min + ( Math.random() * ( max - min ) ));
 }

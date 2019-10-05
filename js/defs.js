@@ -7,7 +7,7 @@ Game.defs = {};
 var color = {
     selected: "rgba(100,150,185,0.5)",
     red: "rgba(255,0,0,0.3)"
-}
+};
 
 var Tower = function(options) {
     var tower = {};
@@ -15,7 +15,9 @@ var Tower = function(options) {
     tower.id = Game.towers.length;
 
     for (var key in options) {
-        tower[key] = options[key];
+        if (options.hasOwnProperty(key)) {
+            tower[key] = options[key];
+        }
     }
     tower.x = Game.cell.width * options.gx;
     tower.y = Game.cell.width * options.gy;
@@ -49,7 +51,7 @@ var Tower = function(options) {
                 }
             }
         });
-    }
+    };
     tower.draw = function() {
         if(tower.isSelected) {
             drawCircle(tower.x + Game.cell.width / 2, tower.y + Game.cell.width / 2, tower.range, color.selected);
@@ -57,7 +59,7 @@ var Tower = function(options) {
         //drawCircle(tower.x, tower.y, 10, tower.color);
         Game.renderEntity(tower);
         tower.levelText.draw();
-    }
+    };
     tower.upgrate = function() {
         if(tower.level - 1 < tower.levels.length) {
             if(Game.cash - tower.levels[tower.level + 1].cost >= 0) {
@@ -75,15 +77,15 @@ var Tower = function(options) {
         } else {
 
         }
-    }
+    };
     tower.sell = function() {
         tower.activated = false;
         Game.cash += tower.price;
         Game.world.map[options.gx][options.gy] = 0;
         Game.mouse.selection.selected = false;
-    }
+    };
     return tower;
-}
+};
 
 var Bullet = function(tower, creep) {
     var bullet = {};
@@ -114,9 +116,9 @@ var Bullet = function(tower, creep) {
         }
 
 
-    }
+    };
     return bullet;
-}
+};
 
 var Bomb = function(tower, creep) {
     var bomb = {};
@@ -127,7 +129,7 @@ var Bomb = function(tower, creep) {
     bomb.target = {
         x: creep.x,
         y: creep.y
-    }
+    };
 
     bomb.r = tower.bullet.r;
     bomb.activated = true;
@@ -144,7 +146,8 @@ var Bomb = function(tower, creep) {
             return;
 
         if (i < bomb.path.length - 3) {
-            bomb.x = bomb.path[i].x, bomb.y = bomb.path[i].y;
+            bomb.x = bomb.path[i].x;
+            bomb.y = bomb.path[i].y;
         } else {
             bomb.activated = false;
             bomb.path = [];
@@ -175,9 +178,9 @@ var Bomb = function(tower, creep) {
             bomb.activated = false;
         }
         drawCircle(bomb.x, bomb.y, tower.bullet.r, tower.bullet.color);
-    }
+    };
     return bomb;
-}
+};
 
 Game.defs =  {};
 
@@ -206,7 +209,7 @@ Game.defs.gun = {
         {cost:3340, damage:26650, range: 2.9, rate:20},
         {cost:5170, damage:45750, range: 2.9, rate:20},
         {cost:8000, damage:78350, range: 2.9, rate:20},
-        {cost:12406, damage:133970, range: 2.9, rate:20},
+        {cost:12406, damage:133970, range: 2.9, rate:20}
     ],
     atack: function(tower, creep) {
         Game.bullets.push(new Bullet(tower, creep));
@@ -219,7 +222,7 @@ Game.defs.mortal = {
     name: 'Мортира',
     source: {
         url: 'img/sprite64.png',
-        pos: [0, 0],
+        pos: [0, 0]
     },
     bullet: {
         r: 5,
@@ -233,7 +236,7 @@ Game.defs.mortal = {
         {cost:3460, damage:13090, range: 4.2, rate:80},
         {cost:5367, damage:23988, range: 4.2, rate:60},
         {cost:8320, damage:42727, range: 4.2, rate:60},
-        {cost:12890, damage:74858, range: 4.1, rate:60},
+        {cost:12890, damage:74858, range: 4.1, rate:60}
     ],
     atack: function(tower, creep) {
         Game.bombs.push(new Bomb(tower, creep));
@@ -258,7 +261,7 @@ Game.defs.laser = {
         {cost:3050,damage:396,range: 2.6, rate:1},
         {cost:4730,damage:687,range: 2.6, rate:1},
         {cost:7330,damage:1184,range: 2.6, rate:1},
-        {cost:11360,damage:2033,range: 2.6, rate:1},
+        {cost:11360,damage:2033,range: 2.6, rate:1}
     ],
     atack: function(tower, creep) {
         Game.ctx.beginPath();
