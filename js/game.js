@@ -43,6 +43,7 @@ Game.nextWave = function () {
     Game.monsters.creep.hp = option.hp;
     Game.monsters.creep.cost = option.cost;
     Game.monsters.creep.speed = option.speed;
+    Game.monsters.creep.skin = option.skin;
 
     for(var i = 0; i < option.amound; i++) {
         Game.monsters.creep.x -= randomInt(Game.cell.width / 3, Game.cell.width);

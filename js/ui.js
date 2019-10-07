@@ -226,6 +226,14 @@ var UI = function() {
             addTower(Game.defs.gun);
         };
 
+        var towerFreez = new UIButton(
+            new Sprite("img/sprite64.png", [68, 416], [68, 68]),
+            Game.width - 68 * 4 - 4 * marginLeft, y,  68
+        );
+        towerFreez.handler = function() {
+            addTower(Game.defs.freez);
+        };
+
         var towerMortal = new UIButton(
             new Sprite("img/sprite64.png", [68, 416], [68, 68]),
             Game.width - 68 * 2 - 2 * marginLeft, y,  68
@@ -242,6 +250,8 @@ var UI = function() {
             addTower(Game.defs.laser);
         };
 
+
+
         ui.towerInfo = new UITowerInfo(
             new Sprite("img/sprite64.png", [96, 486], [256, 100]),
             Game.width/2 - 256 / 2 + 50, Game.height - 110
@@ -251,7 +261,9 @@ var UI = function() {
         ui.actor.push(towerArch);
         ui.actor.push(towerMortal);
         ui.actor.push(towerLaser);
+        ui.actor.push(towerFreez);
         ui.actor.push(new UIText(Game.defs.gun.levels[0].cost, towerArch.x + 18, towerArch.y + towerArch.height - 8, 14));
+        ui.actor.push(new UIText(Game.defs.freez.levels[0].cost, towerFreez.x + 18, towerFreez.y + towerFreez.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.mortal.levels[0].cost, towerMortal.x + 18, towerMortal.y + towerMortal.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.laser.levels[0].cost, towerLaser.x + 18, towerLaser.y + towerLaser.height - 8, 14));
         ui.actor.push(new UIText('Version: ' + Game.version, 10, 10, 12, '#fff'));

@@ -50,7 +50,8 @@ function generateLevel(wave) {
         speed: level[levelId][0],
         amound: level[levelId][1],
         hp: level[levelId][2],
-        cost: ~~ (reward / level[levelId][1])
+        cost: ~~ (reward / level[levelId][1]),
+        skin: Game.monsters.skins.boss
     }
 }
 //x, y - position in grid

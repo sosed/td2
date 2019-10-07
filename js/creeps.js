@@ -11,7 +11,13 @@ var Creep = function(options) {
     }
 
     creep.maxHp = creep.hp;
-    creep.sprite = new Sprite(creep.source.url, creep.source.pos, creep.source.size, creep.speed * 10,
+    creep.isFrozen = false;
+
+    if (creep.skin == null) {
+        creep.skin = Game.monsters.skins.skeleton;
+    }
+
+    creep.sprite = new Sprite(creep.skin.url, creep.skin.pos, creep.skin.size, creep.speed * 10,
         getArrayFrames(10), null, false);
 
     creep.dirVer = 1; //direction vertical
@@ -21,12 +27,15 @@ var Creep = function(options) {
     creep.center = {
         x: 0, y: 0
     };
-    creep.update = function() {
+    creep.update = function(delta) {
         if(!creep.activated)
             return;
         creep.sprite.update(Game.delta);
+        var speed = creep.isFrozen
+            ? creep.speed / 2
+            : creep.speed;
 
-        if(move(creep, Game.world.route[creep.numPoint], creep.speed)) {
+        if(move(creep, Game.world.route[creep.numPoint], speed)) {
             if(creep.numPoint  + 1 >= Game.world.route.length) {
                 creep.activated = false;
                 Game.live--;
@@ -87,13 +96,22 @@ var Creep = function(options) {
 
 Game.monsters = {};
 
-Game.monsters.creep = {
-    x: 0, y: 0, vx: 0, vy: 0, gx: -10, gy: -10,
-    source: {
+Game.monsters.skins = {
+    skeleton: {
         url: 'img/sprite64.png',
         pos: [0, 64],
         size: [32, 64]
     },
+    boss: {
+        url: 'img/sprite64.png',
+        pos: [0, 128],
+        size: [32, 64]
+    }
+};
+
+Game.monsters.creep = {
+    x: 0, y: 0, vx: 0, vy: 0, gx: -10, gy: -10,
+    skin: null,
     numPoint: 0,
     r: 10,
     speed: 1,

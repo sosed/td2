@@ -6,7 +6,8 @@ Game.defs = {};
 
 var color = {
     selected: "rgba(100,150,185,0.5)",
-    red: "rgba(255,0,0,0.3)"
+    red: "rgba(255,0,0,0.3)",
+    freez: "rgba(0,255,252,0.5)"
 };
 
 var Tower = function(options) {
@@ -40,17 +41,19 @@ var Tower = function(options) {
     setParameters();
 
     tower.update = function() {
-        tower.tick ++;
+        tower.tick += Game.delta;
         tower.sprite.update(Game.delta);
-        Game.creeps.forEach(function(creep) {
-            if(distance(tower.x, tower.y, creep.x, creep.y) < tower.range){
-                if(tower.tick > tower.rate) {
-                    tower.angle = getAngle(tower, creep);
-                    tower.atack(tower, creep);
-                    tower.tick = 1;
-                }
-            }
+        if (tower.tick < tower.rate) {
+            return;
+        }
+        tower.tick = 0;
+        var targetCreep = Game.creeps.find(function(creep) {
+            return creep && distance(tower.x, tower.y, creep.x, creep.y) < tower.range;
         });
+        if (!!targetCreep) {
+            tower.angle = getAngle(tower, targetCreep);
+            tower.atack(tower, targetCreep);
+        }
     };
     tower.draw = function() {
         if(tower.isSelected) {
@@ -74,8 +77,6 @@ var Tower = function(options) {
                 tower.levelText.color = '#f3da03';
                 tower.levelText.size += 2;
             }
-        } else {
-
         }
     };
     tower.sell = function() {
@@ -182,6 +183,7 @@ var Bomb = function(tower, creep) {
     return bomb;
 };
 
+
 Game.defs =  {};
 
 Game.defs.gun = {
@@ -198,18 +200,18 @@ Game.defs.gun = {
         speed: 6
     },
     levels: [
-        {cost:100, damage:135, range: 2.1, rate:30},
-        {cost:155, damage:379, range: 2.1, rate:30},
-        {cost:240, damage:809, range: 2.3, rate:28},
-        {cost:370, damage:1159, range: 2.5, rate:22},
-        {cost:570, damage:2856, range: 2.9, rate:22},
-        {cost:900, damage:5090, range: 2.9, rate:20},
-        {cost:1390, damage:8912, range: 2.9, rate:20},
-        {cost:2150, damage:15450, range: 2.9, rate:20},
-        {cost:3340, damage:26650, range: 2.9, rate:20},
-        {cost:5170, damage:45750, range: 2.9, rate:20},
-        {cost:8000, damage:78350, range: 2.9, rate:20},
-        {cost:12406, damage:133970, range: 2.9, rate:20}
+        {cost:100, damage:135, range: 2.1, rate:1},
+        {cost:155, damage:379, range: 2.1, rate:1},
+        {cost:240, damage:809, range: 2.3, rate:1},
+        {cost:370, damage:1159, range: 2.5, rate:1},
+        {cost:570, damage:2856, range: 2.9, rate:1},
+        {cost:900, damage:5090, range: 2.9, rate:1},
+        {cost:1390, damage:8912, range: 2.9, rate:1},
+        {cost:2150, damage:15450, range: 2.9, rate:1},
+        {cost:3340, damage:26650, range: 2.9, rate:1},
+        {cost:5170, damage:45750, range: 2.9, rate:1},
+        {cost:8000, damage:78350, range: 2.9, rate:1},
+        {cost:12406, damage:133970, range: 2.9, rate:1}
     ],
     atack: function(tower, creep) {
         Game.bullets.push(new Bullet(tower, creep));
@@ -230,16 +232,44 @@ Game.defs.mortal = {
         speed: 4
     },
     levels: [
-        {cost:600, damage:1134, range: 3.5, rate:80},
-        {cost:1440, damage:3181, range: 3.7, rate:70},
-        {cost:2240, damage:6790, range: 4, rate:70},
-        {cost:3460, damage:13090, range: 4.2, rate:80},
-        {cost:5367, damage:23988, range: 4.2, rate:60},
-        {cost:8320, damage:42727, range: 4.2, rate:60},
-        {cost:12890, damage:74858, range: 4.1, rate:60}
+        {cost:600, damage:1134, range: 3.5, rate:3},
+        {cost:1440, damage:3181, range: 3.7, rate:3},
+        {cost:2240, damage:6790, range: 4, rate:3},
+        {cost:3460, damage:13090, range: 4.2, rate:3},
+        {cost:5367, damage:23988, range: 4.2, rate:3},
+        {cost:8320, damage:42727, range: 4.2, rate:3},
+        {cost:12890, damage:74858, range: 4.1, rate:3}
     ],
     atack: function(tower, creep) {
         Game.bombs.push(new Bomb(tower, creep));
+    }
+};
+
+
+Game.defs.freez = {
+    gx: 50, gy: 0,
+    color: "#005CFF",
+    name: 'Заморзка',
+    source: {
+        url: 'img/sprite64.png',
+        pos: [0, 0]
+    },
+    bullet: {
+        r: 5,
+        color: "#333",
+        speed: 0.5
+    },
+    levels: [
+        {cost: 100, damage: 0, range: 2.5, rate: 0.1},
+        {cost: 220, damage: 0, range: 2.7, rate: 0.1},
+        {cost: 350, damage: 0, range: 3, rate: 0.1}
+    ],
+    atack: function(tower, creep) {
+        drawCircle(tower.x + Game.cell.width / 2, tower.y + Game.cell.width / 2, tower.range, color.freez);
+
+        Game.creeps.forEach(function(cr) {
+            cr.isFrozen = ccColliding({x: tower.x, y: tower.y, r: tower.range}, cr);
+        });
     }
 };
 
@@ -252,16 +282,16 @@ Game.defs.laser = {
         pos: [0, 192]
     },
     levels: [
-        {cost:220,damage:6,range: 2.2, rate:1},
-        {cost:340,damage:17,range: 2.45, rate:1},
-        {cost:530,damage:36,range: 2.6, rate:1},
-        {cost:820,damage:69,range: 2.6, rate:1},
-        {cost:1270,damage:127,range: 2.6, rate:1},
-        {cost:1970,damage:226,range: 2.6, rate:1},
-        {cost:3050,damage:396,range: 2.6, rate:1},
-        {cost:4730,damage:687,range: 2.6, rate:1},
-        {cost:7330,damage:1184,range: 2.6, rate:1},
-        {cost:11360,damage:2033,range: 2.6, rate:1}
+        {cost:600,damage:6,range: 2.2, rate: .01},
+        {cost:340,damage:17,range: 2.45, rate:.01},
+        {cost:530,damage:36,range: 2.6, rate:.01},
+        {cost:820,damage:69,range: 2.6, rate:.01},
+        {cost:1270,damage:127,range: 2.6, rate:.01},
+        {cost:1970,damage:226,range: 2.6, rate:.01},
+        {cost:3050,damage:396,range: 2.6, rate:.01},
+        {cost:4730,damage:687,range: 2.6, rate:.01},
+        {cost:7330,damage:1184,range: 2.6, rate:.01},
+        {cost:11360,damage:2033,range: 2.6, rate:.01}
     ],
     atack: function(tower, creep) {
         Game.ctx.beginPath();
