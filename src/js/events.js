@@ -90,12 +90,10 @@ function handleMove(e) {
 
 
 function removeFocus() {
-    if(Game.mouse.selection.selected) {
-        if(!intersects(Game.ui.towerInfo, Game.mouse)) {
-            Game.mouse.selection.selected = false;
-            Game.mouse.selection.tower.isSelected = false;
-            delete Game.mouse.selection.tower;
-        }
+    var selection = Game.mouse.selection;
+    if(selection.selected && !intersects(Game.ui.towerInfo, Game.mouse)) {
+        selection.selected = false;
+        selection.tower.isSelected = false;
+        delete Game.mouse.selection.tower;
     }
-};
-
+}
