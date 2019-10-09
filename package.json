@@ -4,9 +4,9 @@
   "description": "Test game",
   "main": "index.js",
   "scripts": {
-    "dist": "webpack",
+    "build": "webpack",
     "watch": "webpack -w",
-    "server": "webpack-dev-server"
+    "start": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
