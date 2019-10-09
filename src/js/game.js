@@ -77,6 +77,7 @@ Game.state['play'] = {
 
         this.updateActor(Game.bullets);
         this.updateActor(Game.bombs);
+        this.updateActor(Game.freezes);
 
         renderEntities(Game.explosions);
 

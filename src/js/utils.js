@@ -3,6 +3,10 @@ function generateLevel(wave) {
 
     var hp = ~~(30 + (wave - 1) * (20 * Math.pow(1.06, wave - 4)));
 
+    if (wave >= 35) {
+        hp = ~~(30 + (wave/2 - 1) * (30 * Math.pow(1.06, wave - 4)));
+    }
+
     if (wave >= 100) {
         hp = hp * Math.pow(1.05, wave - 100);
     }
@@ -21,29 +25,32 @@ function generateLevel(wave) {
     // 0 - скорость
     // 1 - кол-во монстров
     // 2 - кровинок
-    level[0] = [2, amound/8, 30];
-    level[1] = [2, 10, 45];
-    level[2] = [2, 40 / 2, 56];
-    level[3] = [2, amound,     hp];
-    level[4] = [4, amound,     hp / 2];
-    level[5] = [2, amound / 2, hp * 3];
-    level[6] = [2, amound / 10,hp * 10];
-    level[7] = [2, 3,          hp * 10];
-    level[8] = [8, amound * 3, hp / 2];
-    level[9] = [2, 1,          hp * 20]; // BOSS
-    level[10] = [2, amound,     hp];
 
-    level[11] = [10, amound * 3, hp / 3];
-    level[12] = [1.5, amound,    hp * 5];
+    level[0] =  [2, amound/8,  30];
+    level[1] =  [2, 10,        45];
+    level[2] =  [2, 40 / 2,    56];
+    level[3] =  [2, amound,    hp];
+    level[4] =  [4, amound,    hp / 2];
+    level[5] =  [2, amound/2,  hp * 3];
+    level[6] =  [2, amound/10, hp * 5];
+    level[7] =  [3, 3,         hp * 8];
+    level[8] =  [5, amound*2,  hp / 2];
+    level[9] =  [2, 1,         hp * 10]; // BOSS
+    level[10] = [2, amound,    hp];
+    level[11] = [7, amound*2,  hp / 3];
+    level[12] = [1, amound,    hp * 5];
 
 
     var reward, levelId;
     if(wave < 3) {
         levelId = wave - 1;
-        reward = 500 + 100 * wave - 1;
+        reward = 800 + 100 * wave - 1;
     } else {
-        reward = 700 + 100 * (wave - 3);
+        reward = 1200 + 100 * (wave - 3);
         levelId = (wave - 4) % 10 + 3;
+    }
+    if(wave%5 == 0) {
+        reward /= 2;
     }
     reward /= 5;
     return {
@@ -51,7 +58,6 @@ function generateLevel(wave) {
         amound: level[levelId][1],
         hp: level[levelId][2],
         cost: ~~ (reward / level[levelId][1]),
-        skin: Game.monsters.skins.boss
     }
 }
 //x, y - position in grid
@@ -230,9 +236,9 @@ function intersects(obj, mouse) {
  * @param {x,y} end - цель оъекта
  * @return {array} одномерный массив точек маршрута
  */
-function getCurvePath(begin, end) {
+function getCurvePath(begin, end, xy) {
     var xd = 0,
-        xy = -200;
+        xy = xy || -200;
     var p0 = {x: begin.x, y: begin.y},
         p2 = {x: end.x, y: end.y},
         p1 = {x: xd + (p0.x + p2.x) * 0.5, y: xy + (p0.y + p2.y) * 0.5},

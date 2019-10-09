@@ -165,7 +165,6 @@ var Bomb = function(tower, creep) {
 
             Game.creeps.forEach(function(cr) {
                 if(ccColliding({x: bomb.target.x, y: bomb.target.y, r: bomb.rangeExpl}, cr)) {
-
                     cr.hp -= tower.damage;
                     if(!cr.hp) {
                         cr.activated = false;
@@ -183,6 +182,67 @@ var Bomb = function(tower, creep) {
     return bomb;
 };
 
+
+var Freeze = function(tower, creep) {
+    var freeze = {};
+    freeze.x = tower.x + Game.cell.width / 2;
+    freeze.y = tower.y + Game.cell.width/2;
+    freeze.cx = creep.x;
+    freeze.cy = creep.y;
+    freeze.target = {
+        x: creep.x,
+        y: creep.y
+    }
+
+    freeze.r = tower.bullet.r;
+    freeze.activated = true;
+    freeze.rangeExpl = 0.8 * Game.cell.width;
+    freeze.path = getCurvePath(freeze, {x:creep.center.x,y:creep.center.y}, -10, 0.8);
+    freeze._index = 0;
+    freeze.update = function() {
+
+        freeze._index += tower.bullet.speed*Game.delta * 30;
+
+        var i = Math.floor(freeze._index) % freeze.path.length;
+
+        if(!freeze.activated)
+            return;
+
+        if (i < freeze.path.length - 3) {
+            freeze.x = freeze.path[i].x, freeze.y = freeze.path[i].y;
+        } else {
+            freeze.activated = false;
+            freeze.path = [];
+            Game.explosions.push({
+                x: freeze.target.x, y: freeze.target.y,
+                sprite: new Sprite('img/sprite64.png',
+                    [64, 320],
+                    [0, 64],
+                    64,
+                    [0, 1, 2, 3, 4, 5],
+                    null,
+                    true)
+            });
+
+            Game.creeps.forEach(function(cr) {
+                if(ccColliding({x: freeze.target.x, y: freeze.target.y, r: freeze.rangeExpl}, cr)) {
+                    cr.speed = 0.5;
+                    cr.hp -= tower.damage/10;
+                    if(!cr.hp) {
+                        cr.activated = false;
+                        Game.cash += cr.cost;
+                    }
+                }
+            });
+        }
+
+        if(freeze.x < 0 || freeze.x > Game.width || freeze.y < 0 || freeze.y > Game.height) {
+            freeze.activated = false;
+        }
+        drawCircle(freeze.x, freeze.y, tower.bullet.r, tower.bullet.color);
+    }
+    return freeze;
+}
 
 Game.defs =  {};
 

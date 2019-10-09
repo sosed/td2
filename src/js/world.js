@@ -18,7 +18,6 @@ var World = function() {
                     [9,9,3,9,9,9,9,9,9,9] ];
 
 
-
     world.terrain = {
         begin: 2,
         end: 3,
