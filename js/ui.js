@@ -219,7 +219,7 @@ var UI = function() {
             y = Game.height - 80;
         var towerArch = new UIButton(
             new Sprite("img/sprite64.png", [0, 416], [68, 68]),
-            Game.width - 68 * 3 - 3 * marginLeft, y, 68
+            Game.width - 68 * 4 - 4 * marginLeft, y, 68
         );
         towerArch.handler = function() {
             addTower(Game.defs.gun);
@@ -227,7 +227,7 @@ var UI = function() {
 
         var towerMortal = new UIButton(
             new Sprite("img/sprite64.png", [68, 416], [68, 68]),
-            Game.width - 68 * 2 - 2 * marginLeft, y,  68
+            Game.width - 68 * 3 - 3 * marginLeft, y,  68
         );
         towerMortal.handler = function() {
             addTower(Game.defs.mortal);
@@ -235,10 +235,18 @@ var UI = function() {
 
         var towerLaser = new UIButton(
             new Sprite("img/sprite64.png", [136, 416], [68, 68]),
-            Game.width - 68 - marginLeft, y, 68
+            Game.width - 68 * 2 - 2 * marginLeft, y, 68
         );
         towerLaser.handler = function() {
             addTower(Game.defs.laser);
+        };
+
+        var towerFreeze = new UIButton(
+            new Sprite("img/sprite64.png", [204, 416], [68, 68]),
+            Game.width - 68 - marginLeft, y, 68
+        );
+        towerFreeze.handler = function() {
+            addTower(Game.defs.freezing);
         };
 
         ui.towerInfo = new UITowerInfo(
@@ -250,9 +258,11 @@ var UI = function() {
         ui.actor.push(towerArch);
         ui.actor.push(towerMortal);
         ui.actor.push(towerLaser);
+        ui.actor.push(towerFreeze);
         ui.actor.push(new UIText(Game.defs.gun.levels[0].cost, towerArch.x + 18, towerArch.y + towerArch.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.mortal.levels[0].cost, towerMortal.x + 18, towerMortal.y + towerMortal.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.laser.levels[0].cost, towerLaser.x + 18, towerLaser.y + towerLaser.height - 8, 14));
+        ui.actor.push(new UIText(Game.defs.freezing.levels[0].cost, towerFreeze.x + 18, towerFreeze.y + towerFreeze.height - 8, 14));
         ui.actor.push(new UIText('Version: ' + Game.version, 10, 10, 12, '#fff'));
         ui.actor.push(ui.towerInfo);
 

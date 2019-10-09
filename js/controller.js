@@ -13,6 +13,7 @@ var Game = (function() {
         creeps: [],
         bullets: [],
         bombs: [],
+        freezes: [],
         explosions: [],
         version: '0.1.002',
         fps: null,

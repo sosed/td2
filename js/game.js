@@ -38,7 +38,7 @@ Game.nextWave = function () {
     Game.monsters.creep.y = Game.world.route[0].y;
     Game.monsters.creep.x = Game.world.route[0].x;
 
-    var option = generateLelev(Game.wave);
+    var option = generateLevel(Game.wave);
     Game.monsters.creep.hp = option.hp;
     Game.monsters.creep.cost = option.cost;
     Game.monsters.creep.speed = option.speed;
@@ -74,6 +74,7 @@ Game.state['play'] = {
 
         this.updateActor(Game.bullets);
         this.updateActor(Game.bombs);
+        this.updateActor(Game.freezes);
 
         renderEntities(Game.explosions);
 
