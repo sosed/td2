@@ -58,16 +58,19 @@ function handleUp(e) {
 
     if(Game.mouse.drag.active) {
 
-        if(Game.world.map[cell.gx][cell.gy] == Game.world.terrain.common) {
+        if(Game.world.map[cell.gx][cell.gy] === Game.world.terrain.common) {
             Game.mouse.drag.tower.gx = cell.gx;
             Game.mouse.drag.tower.gy = cell.gy;
 
             Game.towers.push(new Tower(Game.mouse.drag.tower));
             Game.world.map[cell.gx][cell.gy] = 1000 + Game.towers.length;
             Game.cash -= Game.towers[Game.towers.length - 1].cost;
-            Game.mouse.drag.tower = {};
-            Game.mouse.drag.active = false;
+        } else {
+            Game.ui.alert("Недоступное место для постройки");
         }
+
+        Game.mouse.drag.tower = {};
+        Game.mouse.drag.active = false;
     }
 }
 
@@ -87,12 +90,10 @@ function handleMove(e) {
 
 
 function removeFocus() {
-    if(Game.mouse.selection.selected) {
-        if(!intersects(Game.ui.towerInfo, Game.mouse)) {
-            Game.mouse.selection.selected = false;
-            Game.mouse.selection.tower.isSelected = false;
-            delete Game.mouse.selection.tower;
-        }
+    var selection = Game.mouse.selection;
+    if(selection.selected && !intersects(Game.ui.towerInfo, Game.mouse)) {
+        selection.selected = false;
+        selection.tower.isSelected = false;
+        delete Game.mouse.selection.tower;
     }
-};
-
+}

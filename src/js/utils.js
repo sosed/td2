@@ -91,7 +91,7 @@ function getAngle(pos1, pos2) {
 function getPositionNumberFromArray(m, n) {
     for(var i = 0; i < m.length; i++)
         for(var k = 0; k < m[0].length; k++)
-            if(m[i][k] == n) {
+            if(m[i][k] === n) {
                 return {x: i, y: k};
             }
     return -1;
@@ -123,18 +123,18 @@ function getRoute(map, begin, end) {
         for(var i = 0; i < dx.length; i ++) {
             if(cx + dx[i] < 0 || cx + dx[i] > map.length || cy + dy[i] < 0 || cy + dy[i] > map[0].length)
                 continue;
-            if(map[cx + dx[i]][cy + dy[i]] == 3) {
+            if(map[cx + dx[i]][cy + dy[i]] === 3) {
                 b = false;
                 point.push({x: gridToPixel(end.x + 2), y: gridToPixel(end.y)});
                 return point;
             }
-            if(map[cx + dx[i]][cy + dy[i]] == 1) {
+            if(map[cx + dx[i]][cy + dy[i]] === 1) {
                 cx += dx[i];
                 cy += dy[i];
                 map[cx][cy] = -1;
                 point.push({
                     x: gridToPixel(cx),
-                    y: gridToPixel(cy),
+                    y: gridToPixel(cy)
                 });
                 i--;
             }
@@ -143,7 +143,7 @@ function getRoute(map, begin, end) {
     }
 
     return point;
-};
+}
 
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
@@ -227,7 +227,7 @@ function intersects(obj, mouse) {
     var xIntersect = (mouse.x + t) > obj.x && (mouse.x - t) < obj.x + obj.width,
         yIntersect = (mouse.y + t) > obj.y && (mouse.y - t) < obj.y + obj.height;
     return  xIntersect && yIntersect;
-};
+}
 
 /*
  * Имитация выстрела мортиры методом кривых безье
@@ -258,12 +258,12 @@ function getCurvePath(begin, end, xy) {
 
 function angleCalc(sx, sy, tx, ty) {
     return Math.atan2(ty - sy, tx - sx);
-};
+}
 
 var Pos = function(p) {
-    var pos = [p[0], p[1]];
-    return pos;
-}
+    return [p[0], p[1]];
+};
+
 function randomInt( min, max ) {
     return Math.round(min + ( Math.random() * ( max - min ) ));
 }

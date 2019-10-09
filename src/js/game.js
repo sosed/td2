@@ -15,7 +15,8 @@ Game.default = function() {
     Game.wave = 0;
     Game.cash = 200;
     Game.live = 100;
-}
+};
+
 /*
  * Общий интерфейс для всех объектов
  *
@@ -42,12 +43,14 @@ Game.nextWave = function () {
     Game.monsters.creep.hp = option.hp;
     Game.monsters.creep.cost = option.cost;
     Game.monsters.creep.speed = option.speed;
+    Game.monsters.creep.skin = option.skin;
 
     for(var i = 0; i < option.amound; i++) {
         Game.monsters.creep.x -= randomInt(Game.cell.width / 3, Game.cell.width);
         Game.creeps.push(new Creep(Game.monsters.creep));
     }
-}
+};
+
 Game.end = function() {
     Game.currentState = 'end';
 };
@@ -106,7 +109,7 @@ Game.state['play'] = {
         actor.forEach(function(item, i, a) {
             item.draw();
         });
-    },
+    }
 
 };
 
@@ -132,7 +135,7 @@ Game.renderEntity = function (entity, angle, scale) {
 
     entity.sprite.render(Game.ctx);
     Game.ctx.restore();
-}
+};
 
 function renderEntities(list) {
     for(var i=0; i<list.length; i++) {
@@ -163,7 +166,7 @@ window.addEventListener('load', function() {
 
     resources.load([
         'img/sprite64.png',
-        'img/bg.png',
+        'img/bg.png'
     ]);
     resources.onReady(Game.init);
 

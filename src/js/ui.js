@@ -21,7 +21,7 @@ var UIButton = function (sprite, x, y, width, height) {
     };
     this.draw = function() {
         Game.renderEntity(this, null);
-    }
+    };
     this.updateStats = function(){
         if (intersects(this, Game.mouse)) {
             this.hovered = true;
@@ -170,14 +170,15 @@ var UITowerInfo = function(sprite, x, y) {
 
         Game.ctx.beginPath();
 
-        if(Game.cash - t.levels[t.level + 1].cost >= 0) {
-            Game.ctx.fillStyle = "#fff";
-        } else {
-            Game.ctx.fillStyle = "#F00";
-        }
+
 
         Game.ctx.font="14px Verdana";
         if(t.level < t.levels.length - 1) {
+            if(Game.cash - t.levels[t.level + 1].cost >= 0) {
+                Game.ctx.fillStyle = "#fff";
+            } else {
+                Game.ctx.fillStyle = "#F00";
+            }
             Game.renderEntity(this.btnUpgrate);
             Game.ctx.fillText(t.levels[t.level + 1].cost, this.btnUpgrate.x + this.btnUpgrate.width / 2 - 10, this.btnUpgrate.y + 30);
 
@@ -189,7 +190,7 @@ var UITowerInfo = function(sprite, x, y) {
         Game.ctx.closePath();
 
     };
-}
+};
 
 var UI = function() {
     var ui = {};
@@ -212,7 +213,7 @@ var UI = function() {
             Game.nextWave();
         };
         ui.actor.push(ui.btnNextWave);
-    }
+    };
 
     function initTower() {
         var marginLeft = 15,
@@ -246,7 +247,7 @@ var UI = function() {
             Game.width - 68 - marginLeft, y, 68
         );
         towerFreeze.handler = function() {
-            addTower(Game.defs.freezing);
+            addTower(Game.defs.freez);
         };
 
         ui.towerInfo = new UITowerInfo(
@@ -262,7 +263,7 @@ var UI = function() {
         ui.actor.push(new UIText(Game.defs.gun.levels[0].cost, towerArch.x + 18, towerArch.y + towerArch.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.mortal.levels[0].cost, towerMortal.x + 18, towerMortal.y + towerMortal.height - 8, 14));
         ui.actor.push(new UIText(Game.defs.laser.levels[0].cost, towerLaser.x + 18, towerLaser.y + towerLaser.height - 8, 14));
-        ui.actor.push(new UIText(Game.defs.freezing.levels[0].cost, towerFreeze.x + 18, towerFreeze.y + towerFreeze.height - 8, 14));
+        ui.actor.push(new UIText(Game.defs.freez.levels[0].cost, towerFreeze.x + 18, towerFreeze.y + towerFreeze.height - 8, 14));
         ui.actor.push(new UIText('Version: ' + Game.version, 10, 10, 12, '#fff'));
         ui.actor.push(ui.towerInfo);
 
@@ -273,7 +274,7 @@ var UI = function() {
             Game.mouse.drag = {
                 active: true,
                 tower: tower
-            }
+            };
             return true;
         }
 
