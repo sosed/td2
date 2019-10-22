@@ -15,7 +15,7 @@ export class GameLevel extends Scene {
 
     render(time) {
         this.update(time);
-        this.game.screen.fill('#000000');
+        this.game.screen.fill('#c0ffad');
         // this.game.screen.drawSprite(this.map);
         // TODO Draw towers and creeps
         super.render(time);
