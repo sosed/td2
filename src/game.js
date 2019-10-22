@@ -6,10 +6,10 @@ import { Loading } from './scenes/loading';
 
 export class Game {
 
-    constructor({width = 640, height = 640} = {}) {
+    constructor({width = 800, height = 640} = {}) {
         this.screen = new Screen(width,height);
         this.screen.loadImages({
-			baseSprite: 'sprite64.png'
+			baseSprite: './img/sprite64.png'
         });
         this.scenes = {
             loading: new Loading(this),

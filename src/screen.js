@@ -9,6 +9,7 @@ export class Screen {
         this.context = this.canvas.getContext('2d');
         this.images = {};
         this.isImagesLoaded = false;
+        this.errorList = [];
     }
 
     loadImages(imageFiles) {
@@ -34,9 +35,17 @@ export class Screen {
     }
 
     print(x, y, text) {
-        this.context.fillStyle = "#FFFFFF";
+        this.context.fillStyle = "#000000";
         this.context.font = "22px Georgia";
         this.context.fillText(text, x, y);
+    }
+
+    alert(text) {
+        this.errorList.push(text);
+        const y = this.errorList.length * 22 + 5;
+        this.context.fillStyle = "#F00";
+        this.context.font = "22px Georgia";
+        this.context.fillText(text, 0, y);
     }
 
     drawImage(x, y, imageName) {
